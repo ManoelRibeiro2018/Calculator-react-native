@@ -6,8 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import type {Node} from 'react';
+import React, { Component } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -27,64 +26,54 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Button from './src/components/Button';
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
-  return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
-  );
-};
 
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
+import Display from './src/components/Display';
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-  
-  return (
-     
-        <View style= {styles.sectionContainer}>
-          <View style={styles.buttons}>
-             <Button label='AC'></Button>
-             <Button label='/'></Button>
-             <Button label='7'></Button>
-             <Button label='8'></Button>
-             <Button label='9'></Button>
-             <Button label='*'></Button>
-             <Button label='4'></Button>
-             <Button label='5'></Button>
-             <Button label='6'></Button>
-             <Button label='-'></Button>
-             <Button label='1'></Button>
-             <Button label='2'></Button>
-             <Button label='3'></Button>
-             <Button label='+'></Button>
-             <Button label='0'></Button>
-             <Button label='.'></Button>
-             <Button label='='></Button>
-          </View>
-        </View>
-  );
-  
+
+export default class App extends Component{
+ 
+  state ={
+    displayValue:'0'
+  }
+
+  addDigit = n =>{
+    this.setState({displayValue: n})
+  }
+
+  clearMemory = () =>{
+    this.setState({displayValue: '0'})
+  }
+
+  setOperation = operation =>{
+
+  }
+  render(){
+        return (
+                    
+              <View style= {styles.sectionContainer}>
+                <Display value={this.state.displayValue}/>
+                <View style={styles.buttons}>
+                  <Button label='AC' triple onClick={this.clearMemory}/>
+                  <Button label='/' operation onclick={() => this.setOperation('/')}></Button>
+                  <Button label='7' onClick={()=> this.addDigit(7)}></Button>
+                  <Button label='8' onClick={()=> this.addDigit(8)}></Button>
+                  <Button label='9' onClick={()=> this.addDigit(9)}></Button>
+                  <Button label='*' operation onClick={()=> this.setOperation('*')}></Button>
+                  <Button label='4' onClick={()=> this.addDigit(4)}></Button>
+                  <Button label='5' onClick={()=> this.addDigit(5)}></Button>
+                  <Button label='6' onClick={()=> this.addDigit(6)}></Button>
+                  <Button label='-' operation onClick={()=> this.setOperation('-')}></Button>
+                  <Button label='1' onClick={()=> this.addDigit(1)} ></Button>
+                  <Button label='2' onClick={()=> this.addDigit(2)} ></Button>
+                  <Button label='3' onClick={()=> this.addDigit(3)} ></Button>
+                  <Button label='+' operation onClick={()=> this.setOperation('+')}></Button>
+                  <Button label='0' double onClick={()=> this.addDigit(0)}></Button>
+                  <Button label='.' onClick={()=> this.addDigit('.')}></Button>
+                  <Button label='=' operation onClick={()=> this.setOperation('=')}></Button>
+                </View>
+              </View>
+        );
+  }
 };
 
 const styles = StyleSheet.create({
@@ -110,4 +99,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
